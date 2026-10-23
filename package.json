@@ -1,0 +1,22 @@
+{
+  "name": "return-trip-checklist",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Keep the receipt, deadline and drop-off details with a practical packing checklist. Tick off what is ready before you leave.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test test/build.test.mjs test/core.test.mjs",
+    "check": "node scripts/check.mjs && prettier --check .",
+    "build": "node scripts/build.mjs",
+    "test:browser": "playwright test",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "prettier": "3.9.10"
+  }
+}

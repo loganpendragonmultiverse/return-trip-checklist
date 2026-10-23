@@ -1,0 +1,10 @@
+name: Bug report
+description: Report a reproducible problem in Return Trip Checklist
+body:
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps, browser and page origin
+      description: Include expected and actual behavior. Do not include personal backups or receipts.
+    validations:
+      required: true

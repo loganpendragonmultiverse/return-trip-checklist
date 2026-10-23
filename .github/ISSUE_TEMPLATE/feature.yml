@@ -1,0 +1,9 @@
+name: Focused improvement
+description: Suggest an improvement to the documented job
+body:
+  - type: textarea
+    id: scenario
+    attributes:
+      label: What practical scenario would this help?
+    validations:
+      required: true

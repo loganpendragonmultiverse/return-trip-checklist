@@ -1,0 +1,20 @@
+{
+  "format": "return-trip-checklist",
+  "version": 1,
+  "records": [
+    {
+      "item": "Desk lamp",
+      "date": "2026-11-15",
+      "location": "Market Street parcel shop",
+      "packaging": "Original box and protective sleeve.",
+      "accessories": "Power adapter\nInstruction booklet",
+      "notes": "Check the retailer’s return instructions before travelling.",
+      "receiptReady": false,
+      "packagingReady": false,
+      "accessoriesReady": false,
+      "done": false,
+      "id": "example-1",
+      "attachments": []
+    }
+  ]
+}

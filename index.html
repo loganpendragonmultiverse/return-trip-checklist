@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Return Trip Checklist: a private, local-first household notebook with portable backups and practical print sheets."
+    />
+    <meta name="color-scheme" content="light" />
+    <title>Return Trip Checklist</title>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to notebook</a>
+    <header class="masthead">
+      <div class="brand">PENDRAGON · EVERYDAY TOOLS <span>v1.0.0</span></div>
+      <h1 id="title">Return Trip Checklist</h1>
+      <p class="tagline" id="tagline"></p>
+      <p class="intro" id="intro"></p>
+      <div class="principles">
+        <span>No account</span><span>Works offline</span
+        ><span>Your files stay here</span>
+      </div>
+    </header>
+    <main id="main">
+      <section class="toolbar" aria-label="Notebook tools">
+        <div class="toolbar-actions">
+          <button id="export">Export backup</button
+          ><label class="button secondary" for="import-file"
+            >Import backup<input
+              id="import-file"
+              type="file"
+              accept=".json,application/json" /></label
+          ><button id="print-sheet" class="secondary">Print sheet</button
+          ><button id="print-labels" class="secondary" hidden>
+            Print bag labels</button
+          ><button id="undo" class="secondary" disabled>
+            Undo last change
+          </button>
+        </div>
+        <p class="storage-note">
+          Save each record explicitly. Browser storage is limited,
+          device-specific and can be cleared. Export backups regularly,
+          including attachments. There is no cloud sync or password protection.
+        </p>
+      </section>
+      <div
+        id="message"
+        class="notice"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></div>
+      <section id="recovery" class="recovery" hidden>
+        <h2>Preserve your saved data</h2>
+        <p id="recovery-message"></p>
+        <p>
+          Normal saves are blocked. Download the original storage bytes if
+          available, then import and confirm a valid backup. Nothing is
+          overwritten until you confirm recovery.
+        </p>
+        <button id="raw-export" class="secondary">
+          Export original storage
+        </button>
+      </section>
+      <div class="workspace">
+        <section class="editor panel" id="editor" aria-labelledby="form-title">
+          <div class="section-heading">
+            <h2 id="form-title">Add record</h2>
+            <span>* Required</span>
+          </div>
+          <form id="form">
+            <div id="fields" class="fields"></div>
+            <div class="field">
+              <label id="attachment-label" for="files">Attachments</label
+              ><input
+                id="files"
+                type="file"
+                aria-describedby="attachment-hint"
+              /><small id="attachment-hint"></small>
+            </div>
+            <div id="attachment-preview" class="attachments"></div>
+            <div class="form-actions">
+              <button id="save" type="submit">Add record</button
+              ><button id="cancel-edit" type="button" class="secondary" hidden>
+                Cancel edit</button
+              ><button id="clear-form" type="button" class="text-button">
+                Clear form
+              </button>
+            </div>
+          </form>
+        </section>
+        <section class="library" aria-labelledby="library-title">
+          <div class="library-heading">
+            <div>
+              <p class="eyebrow">YOUR NOTEBOOK</p>
+              <h2 id="library-title">Everything in its place</h2>
+            </div>
+            <p id="count" class="count"></p>
+          </div>
+          <div class="filters">
+            <div class="field">
+              <label for="search">Search all details</label
+              ><input
+                id="search"
+                type="search"
+                placeholder="Find an item, person or project…"
+              />
+            </div>
+            <div class="field">
+              <label for="status-filter">Status</label
+              ><select id="status-filter">
+                <option value="all">All records</option>
+                <option value="active">Active</option>
+                <option value="done">Completed</option>
+              </select>
+            </div>
+          </div>
+          <p id="results-count" class="results-count" aria-live="polite"></p>
+          <div id="records" class="record-list"></div>
+          <div id="empty" class="empty">
+            <div class="empty-icon" aria-hidden="true">＋</div>
+            <h3 id="empty-title">Start with one record</h3>
+            <p id="empty-text"></p>
+            <button id="sample" class="secondary">Load example records</button>
+          </div>
+        </section>
+      </div>
+      <section class="footnotes">
+        <div>
+          <h2>A useful record, with clear limits</h2>
+          <p id="limit"></p>
+          <p>
+            Printing uses the current search and status filter. Check the print
+            preview; PDF receipts must be downloaded and printed separately.
+            Labels use ordinary paper with cut lines, not a particular
+            commercial label stock.
+          </p>
+        </div>
+        <div>
+          <h2>Keep a second copy</h2>
+          <p>
+            Backups are readable JSON with attachments included. They can
+            contain personal names, photos and receipts. Store them privately.
+            Use one tab at a time. Unsaved form changes are not included in a
+            notebook backup.
+          </p>
+          <button id="delete-all" class="danger text-button">
+            Delete all saved records
+          </button>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <span>Return Trip Checklist · Open source under MIT</span
+      ><a
+        href="https://github.com/loganpendragonmultiverse/return-trip-checklist"
+        rel="noreferrer"
+        >Source &amp; help</a
+      >
+    </footer>
+    <dialog id="import-dialog" aria-labelledby="import-title">
+      <h2 id="import-title">Review backup import</h2>
+      <p id="import-summary"></p>
+      <p class="notice">
+        Only apply a backup you trust. Attachments are downloaded copies; they
+        are not proof of a transaction or safe documents.
+      </p>
+      <p id="import-error" role="alert" class="error-text"></p>
+      <div class="form-actions">
+        <button id="apply-import">Replace with this backup</button
+        ><button id="cancel-import" class="secondary">Cancel import</button>
+      </div>
+    </dialog>
+    <section id="print-output" aria-label="Printable output"></section>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
