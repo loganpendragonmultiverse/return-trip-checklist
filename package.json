@@ -9,7 +9,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test test/build.test.mjs test/core.test.mjs",
+    "test": "node --test test/build.test.mjs test/core.test.mjs scripts/static-test-server.test.mjs",
     "check": "node scripts/check.mjs && prettier --check .",
     "build": "node scripts/build.mjs",
     "test:browser": "playwright test",
