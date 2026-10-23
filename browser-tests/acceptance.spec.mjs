@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { createServer } from "node:http";
-import { readFileSync, mkdtempSync, existsSync, statSync } from "node:fs";
+import { createStaticTestServer } from "../scripts/static-test-server.mjs";
+import { readFileSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
@@ -33,34 +33,19 @@ test.beforeAll(async () => {
     path.join(projectRoot, "dist", `${config.slug}-1.0.0.zip`),
     extracted,
   ]);
-  server = createServer((req, res) => {
-    const pathname = decodeURIComponent(
-      new URL(req.url, "http://localhost").pathname,
-    );
-    const prefix = pathname.startsWith("/package/") ? "/package/" : "/source/";
-    const root = prefix === "/package/" ? extracted : projectRoot;
-    const file = path.resolve(root, pathname.slice(prefix.length));
-    if (
-      !file.startsWith(path.resolve(root) + path.sep) ||
-      !existsSync(file) ||
-      !statSync(file).isFile()
-    ) {
-      res.writeHead(404).end();
-      return;
-    }
-    const ext = path.extname(file);
-    res.setHeader(
-      "content-type",
-      ext === ".js"
-        ? "text/javascript"
-        : ext === ".css"
-          ? "text/css"
-          : ext === ".json"
-            ? "application/json"
-            : "text/html",
-    );
-    res.end(readFileSync(file));
-  });
+  server = await createStaticTestServer([
+    {
+      root: projectRoot,
+      routes: [
+        ["/source/index.html", "index.html"],
+        ["/source/src/core.js", "src/core.js"],
+        ["/source/src/config.js", "src/config.js"],
+        ["/source/src/app.js", "src/app.js"],
+        ["/source/src/styles.css", "src/styles.css"],
+      ],
+    },
+    { root: extracted, routes: [["/package/index.html", "index.html"]] },
+  ]);
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   origin = `http://127.0.0.1:${server.address().port}`;
 });
